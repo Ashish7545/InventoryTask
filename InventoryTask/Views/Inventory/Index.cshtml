@@ -1,0 +1,79 @@
+﻿@model List<InventoryModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@*@if(TempData["success"] != null)
+{
+    <h2>@TempData["success "]</h2>
+}*@
+
+@*also you can add this in layout file rather than add one by one in all pages*@
+@*<partial name="_Notification" />*@
+
+
+<div class="container">
+    <div style="text-align: center">
+        <h1><b>Inventory List</b></h1>
+    </div>
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>ProductCode</th>
+                <th>TotalPurchaseQty</th>
+                <th>TotalPurchaseAmt</th>
+                <th>TotalSaleQty</th>
+                <th>TotalSaleAmt</th>
+                <th>Profit&Loss</th>
+                <th>OpeningQty</th>
+                <th>ClosingQty</th>
+                <th>OpeningAmt</th>
+                <th>ClosingAmt</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td>
+                        @obj.Date.Month-@obj.Date.Year
+                    </td>
+                    <td>
+                        @obj.ProductCode
+                    </td>
+                    <td>
+                        @obj.TotalPurchaseQty
+                    </td>
+                    <td>
+                        @obj.TotalPurchaseAmt
+                    </td>
+                    <td>
+                        @obj.TotalSaleQty
+                    </td>
+                    <td>
+                        @obj.TotalSaleAmt
+                    </td>
+                    <td>
+                        @obj.ProfitLoss.ToString("0.000")
+                    </td>
+                    <td>
+                        @obj.OpeningQty
+                    </td>
+                    <td>
+                        @obj.ClosingQty
+                    </td>
+                    <td>
+                        @obj.OpeningAmt.ToString("0.000")
+                    </td>
+                    <td>
+                        @obj.ClosingAmt.ToString("0.000")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
