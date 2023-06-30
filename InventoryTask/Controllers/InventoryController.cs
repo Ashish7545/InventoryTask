@@ -12,14 +12,20 @@ namespace InventoryTask.Controllers
     {      
         public IActionResult Index()
         {
+          
             var filePath = "C:\\Users\\Ashish.Kumar\\Downloads\\inevtory task.xlsx";
             var list = new List<ExcelModel>();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (var package = new ExcelPackage(new FileInfo(filePath)))
             {
+                //To read sheet from Excel file such as Sheet1 as 0, Sheet2 as 1 ...so on.
                 var worksheet = package.Workbook.Worksheets[0];
+
+                //Total Rows & columns in the sheet
                 var rowcount = worksheet.Dimension.Rows;
                 var columncount = worksheet.Dimension.Columns;
+
+                //Reading & adding the data from excel to list rows wise
                 for (int row = 2; row <= rowcount; row++)
                 {
                     list.Add(new ExcelModel
@@ -31,8 +37,10 @@ namespace InventoryTask.Controllers
                         Date = DateTime.Parse(worksheet.Cells[row, 5].Value.ToString())
                     });
                 }
-              
+                
                 List<InventoryModel> inventoryList = new List<InventoryModel>();
+
+                //Month Wise Sorting all data and adding into new inventoryList
                 var monthWise = list.GroupBy(d => d.Date.Month).ToList();
 				InventoryModel inv = new InventoryModel();
 				foreach (var month in monthWise)
@@ -52,17 +60,24 @@ namespace InventoryTask.Controllers
                             {
                                 inv.TotalPurchaseQty += item.Quantity;
                                 inv.TotalPurchaseAmt += item.Quantity * item.PricePerQty;
+
+                                //PurchasePrice PerQty
                                 inv.PurchasePrice = inv.TotalPurchaseAmt / inv.TotalPurchaseQty;
                             }
                             else
                             {
                                 inv.TotalSaleQty += item.Quantity;
                                 inv.TotalSaleAmt += item.Quantity * item.PricePerQty;
+
+                                //SellingPrice PerQty
                                 inv.SellingPrice = inv.TotalSaleAmt / inv.TotalSaleQty;
                             }
                             inv.Date = item.Date.Date;
 							inv.ProductCode = item.ProductCode;
                         }
+
+                        //LastOrDefault return last element of a sequence(Month).
+                        //And Used to add the previous month remaining product to next month 
 						var co = inventoryList.LastOrDefault(a => a.ProductCode == inv.ProductCode);
 						if(co != null)
                         {

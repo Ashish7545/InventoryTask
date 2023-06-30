@@ -29,8 +29,10 @@
                 <th>Profit&Loss</th>
                 <th>OpeningQty</th>
                 <th>ClosingQty</th>
-                <th>OpeningAmt</th>
-                <th>ClosingAmt</th>
+
+                @*Colsing & opening Amt per Qty*@
+                @*<th>OpeningAmt</th>
+                <th>ClosingAmt</th>*@
 
             </tr>
         </thead>
@@ -65,12 +67,13 @@
                     <td>
                         @obj.ClosingQty
                     </td>
-                    <td>
+                    @*Colsing & opening Amt per Qty*@
+                    @*<td>
                         @obj.OpeningAmt.ToString("0.000")
                     </td>
                     <td>
                         @obj.ClosingAmt.ToString("0.000")
-                    </td>
+                    </td>*@
                 </tr>
             }
         </tbody>
